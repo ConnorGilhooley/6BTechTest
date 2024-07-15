@@ -1,0 +1,48 @@
+﻿@page "/"
+@inject AppointmentService AppointmentService
+@inject NavigationManager NavigationManager
+@using System.ComponentModel.DataAnnotations
+@using SixBeeHealthTech.Components.Models
+
+<h3>Book an Appointment</h3>
+
+<EditForm Model="appointment" OnValidSubmit="HandleValidSubmit" FormName="Book">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="name">Name:</label>
+        <InputText id="name" class="form-control" @bind-Value="appointment.Name" />
+    </div>
+    <div class="form-group">
+        <label for="date">Appointment Date:</label>
+        <InputDate id="date" class="form-control" @bind-Value="appointment.AppointmentDate" />
+    </div>
+    <div class="form-group">
+        <label for="time">Appointment Time:</label>
+        <InputDate Type="InputDateType.Time" id="time" class="form-control" @bind-Value="appointment.AppointmentTime" />
+    </div>
+    <div class="form-group">
+        <label for="contact">Contact Number:</label>
+        <InputText id="contact" class="form-control" @bind-Value="appointment.ContactNumber" />
+    </div>
+    <div class="form-group">
+        <label for="email">Email Address:</label>
+        <InputText id="email" class="form-control" @bind-Value="appointment.EmailAddress" />
+    </div>
+    <button type="submit" class="btn btn-primary">Book Appointment</button>
+</EditForm>
+
+@code {
+    [SupplyParameterFromForm]
+    public Appointment? appointment { get; set; }
+
+    protected override void OnInitialized() => appointment ??= new();
+
+    private async Task HandleValidSubmit()
+    {
+        await AppointmentService.CreateAppointmentAsync(appointment);
+        NavigationManager.NavigateTo("/");
+        
+    }
+}
