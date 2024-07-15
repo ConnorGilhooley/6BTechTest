@@ -1,4 +1,8 @@
-﻿@inherits LayoutComponentBase
+﻿@using Microsoft.AspNetCore.Identity
+@using SixBeeHealthTech.Components.Models
+@inherits LayoutComponentBase
+@inject NavigationManager Navigation
+@inject SignInManager<ApplicationUser> SignInManager
 
 <div class="page">
     <div class="sidebar">
@@ -7,7 +11,14 @@
 
     <main>
         <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+            @if (SignInManager.IsSignedIn(SignInManager.Context.User))
+            {
+                <button class="btn btn-primary" @onclick="Logout">Logout</button>
+            }
+            else
+            {
+            <button class="btn btn-primary" @onclick="Login">Login</button>
+            }
         </div>
 
         <article class="content px-4">
@@ -21,3 +32,15 @@
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
 </div>
+
+@code {
+    public async Task Logout()
+    {
+        await SignInManager.SignOutAsync();
+        Navigation.NavigateTo("/");
+    }
+    public async Task Login()
+    {
+        Navigation.NavigateTo("/login");
+    }
+}
