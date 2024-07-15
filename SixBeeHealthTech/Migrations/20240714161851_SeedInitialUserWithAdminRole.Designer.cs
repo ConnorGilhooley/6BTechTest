@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SixBeeHealthTech.Components.DBContext;
 
@@ -11,9 +12,11 @@ using SixBeeHealthTech.Components.DBContext;
 namespace SixBeeHealthTech.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240714161851_SeedInitialUserWithAdminRole")]
+    partial class SeedInitialUserWithAdminRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -243,13 +246,13 @@ namespace SixBeeHealthTech.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1ce40c76-a8ca-4c0f-9a3a-b7a55076ad79",
+                            ConcurrencyStamp = "6694e43c-a5db-4a46-ab24-262f6186bb32",
                             Email = "joebloggs@example.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "JOEBLOGGS@EXAMPLE.COM",
                             NormalizedUserName = "JOE BLOGGS",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBSsl1tHrKnCFWYQCQP0herjdhYUYAmyw017izwFI7UxIK3QxLdPxQRCRDW5fYGDBg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMGece/H56p/Ju+NUl43MuonPTWU4iNNNRgFpxT4guYRfPftOdXH0j+FSWIXWzgA5Q==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -289,28 +292,6 @@ namespace SixBeeHealthTech.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Appointments");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AppointmentDate = new DateTime(2024, 7, 16, 0, 0, 0, 0, DateTimeKind.Local),
-                            AppointmentTime = new TimeOnly(23, 0, 0),
-                            ContactNumber = "123-456-7890",
-                            EmailAddress = "johndoe@example.com",
-                            IsApproved = false,
-                            Name = "John Doe"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            AppointmentDate = new DateTime(2024, 7, 17, 0, 0, 0, 0, DateTimeKind.Local),
-                            AppointmentTime = new TimeOnly(11, 0, 0),
-                            ContactNumber = "987-654-3210",
-                            EmailAddress = "janesmith@example.com",
-                            IsApproved = false,
-                            Name = "Jane Smith"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
