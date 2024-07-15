@@ -4,14 +4,24 @@ using Microsoft.EntityFrameworkCore;
 using SixBeeHealthTech.Components.Models;
 namespace SixBeeHealthTech.Components.DBContext
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
+        public ApplicationDbContext()
+        {
+        }
+
 
         public DbSet<Appointment> Appointments { get; set; }
+
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            return base.SaveChangesAsync(cancellationToken);
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

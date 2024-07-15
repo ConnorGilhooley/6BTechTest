@@ -14,9 +14,9 @@ namespace SixBeeHealthTech.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public AppointmentsController(ApplicationDbContext context)
+        public AppointmentsController(IApplicationDbContext context)
         {
-            _context = context;
+            _context = (ApplicationDbContext?)context;
         }
 
         [HttpGet]

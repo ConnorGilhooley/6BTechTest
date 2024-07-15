@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SixBeeHealthTech", "SixBeeHealthTech\SixBeeHealthTech.csproj", "{8FFEA039-C79C-49B8-9BE3-91FB7357BE3D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SixBeeHealthTech", "SixBeeHealthTech\SixBeeHealthTech.csproj", "{8FFEA039-C79C-49B8-9BE3-91FB7357BE3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SixBeeHealthTech.tests", "SixBeeHealthTech.tests\SixBeeHealthTech.tests.csproj", "{6352D76B-4B50-4646-B44F-31EAE23B3432}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{8FFEA039-C79C-49B8-9BE3-91FB7357BE3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FFEA039-C79C-49B8-9BE3-91FB7357BE3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FFEA039-C79C-49B8-9BE3-91FB7357BE3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6352D76B-4B50-4646-B44F-31EAE23B3432}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6352D76B-4B50-4646-B44F-31EAE23B3432}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6352D76B-4B50-4646-B44F-31EAE23B3432}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6352D76B-4B50-4646-B44F-31EAE23B3432}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
