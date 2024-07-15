@@ -1,0 +1,56 @@
+﻿@page "/login"
+@inject SignInManager<ApplicationUser> SignInManager
+@inject NavigationManager Navigation
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@using SixBeeHealthTech.Components.Models
+@using System.ComponentModel.DataAnnotations
+
+<h3>Login</h3>
+
+<EditForm Model="loginModel" OnValidSubmit="HandleLogin" FormName="Login">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label for="username">Username</label>
+        <InputText id="username" class="form-control" @bind-Value="loginModel.UserName" />
+    </div>
+    <div>
+        <label for="password">Password</label>
+        <InputText id="password" class="form-control" @bind-Value="loginModel.Password" type="password" />
+    </div>
+    <button class="btn btn-primary" type="submit">Login</button>
+</EditForm>
+
+@code {
+    [SupplyParameterFromForm]
+    public LoginModel? loginModel { get; set; }
+
+    protected override void OnInitialized() => loginModel ??= new();
+
+
+    private async Task HandleLogin()
+    {
+        var result = await SignInManager.PasswordSignInAsync(loginModel.UserName, loginModel.Password, false, false);
+
+        if (result.Succeeded)
+        {
+            Navigation.NavigateTo("/admin");
+        }
+        else
+        {
+            // Handle login failure
+        }
+    }
+
+    public class LoginModel
+    {
+        [Required]
+        public string UserName { get; set; }
+
+        [Required]
+        public string Password { get; set; }
+    }
+}
