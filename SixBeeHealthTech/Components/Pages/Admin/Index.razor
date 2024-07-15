@@ -1,0 +1,124 @@
+﻿@page "/admin"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.EntityFrameworkCore
+@using SixBeeHealthTech.Components.DBContext
+@using SixBeeHealthTech.Components.Models
+@attribute [Authorize]
+@inject AppointmentService AppointmentService
+@inject NavigationManager NavigationManager
+
+<h3>Admin Area</h3>
+
+<button @onclick="ShowCreateModal" class="btn btn-primary mb-3">Create</button>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Appointment Date</th>
+            <th>Appointment Time</th>
+            <th>Contact Number</th>
+            <th>Email Address</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var appointment in appointments)
+        {
+            <tr class="@GetRowClass(appointment)">
+                <td>@appointment.Name</td>
+                <td>@appointment.AppointmentDate.ToShortDateString()</td>
+                <td>@appointment.AppointmentTime</td>
+                <td>@appointment.ContactNumber</td>
+                <td>@appointment.EmailAddress</td>
+                <td>
+                    <button @onclick="() => ApproveAppointment(appointment)" class="btn btn-success">Approve</button>
+                    <button @onclick="() => ShowEditModal(appointment)" class="btn btn-warning">Edit</button>
+                    <button @onclick="() => DeleteAppointment(appointment.Id)" class="btn btn-danger">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Create/Edit Modal -->
+<EditForm Model="currentAppointment" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="name">Name:</label>
+        <InputText id="name" class="form-control" @bind-Value="currentAppointment.Name" />
+    </div>
+    <div class="form-group">
+        <label for="date">Appointment Date:</label>
+        <InputDate id="date" class="form-control" @bind-Value="currentAppointment.AppointmentDate" />
+    </div>
+    <div class="form-group">
+        <label for="time">Appointment Time:</label>
+        <InputDate id="time" class="form-control" @bind-Value="currentAppointment.AppointmentTime" />
+    </div>
+    <div class="form-group">
+        <label for="contact">Contact Number:</label>
+        <InputText id="contact" class="form-control" @bind-Value="currentAppointment.ContactNumber" />
+    </div>
+    <div class="form-group">
+        <label for="email">Email Address:</label>
+        <InputText id="email" class="form-control" @bind-Value="currentAppointment.EmailAddress" />
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</EditForm>
+
+@code {
+    private List<Appointment> appointments = new List<Appointment>();
+    private Appointment currentAppointment = new Appointment();
+    private bool isEditMode = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        appointments = await AppointmentService.GetAppointmentsAsync();
+    }
+
+    private string GetRowClass(Appointment appointment)
+    {
+        return appointment.IsApproved ? "table-success" : string.Empty;
+    }
+
+    private async Task ApproveAppointment(Appointment appointment)
+    {
+        appointment.IsApproved = true;
+        await AppointmentService.UpdateAppointmentAsync(appointment);
+        appointments = await AppointmentService.GetAppointmentsAsync();
+    }
+
+    private void ShowCreateModal()
+    {
+        currentAppointment = new Appointment();
+        isEditMode = false;
+    }
+
+    private void ShowEditModal(Appointment appointment)
+    {
+        currentAppointment = appointment;
+        isEditMode = true;
+    }
+
+    private async Task HandleSubmit()
+    {
+        if (isEditMode)
+        {
+            await AppointmentService.UpdateAppointmentAsync(currentAppointment);
+        }
+        else
+        {
+            await AppointmentService.CreateAppointmentAsync(currentAppointment);
+        }
+        appointments = await AppointmentService.GetAppointmentsAsync();
+    }
+
+    private async Task DeleteAppointment(int id)
+    {
+        await AppointmentService.DeleteAppointmentAsync(id);
+        appointments = await AppointmentService.GetAppointmentsAsync();
+    }
+}
