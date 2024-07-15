@@ -13,7 +13,7 @@ namespace SixBeeHealthTech.Components.Models
         public DateTime AppointmentDate { get; set; }
 
         [Required]
-        public TimeSpan AppointmentTime { get; set; }
+        public TimeOnly AppointmentTime { get; set; }
 
         [Required]
         public string ContactNumber { get; set; }
