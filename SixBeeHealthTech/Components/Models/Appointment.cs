@@ -21,6 +21,6 @@ namespace SixBeeHealthTech.Components.Models
         [Required, EmailAddress]
         public string EmailAddress { get; set; }
 
-        public bool IsApproved { get; set; }
+        public bool IsApproved { get; set; } = false;
     }
 }
